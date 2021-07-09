@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 # Author  : Pawan Singh Pal
@@ -15,7 +16,8 @@ import yaml
 
 from flask import Flask, request, render_template
 from flask_bootstrap import Bootstrap
-
+ROOT_PATH = os.path.realpath(os.path.join(__file__, '..', '..'))
+USER_PATH = os.path.realpath(os.path.join(__file__, '..', '..','..'))
 
 app_path  = os.path.dirname(os.path.abspath(__file__))
 
@@ -73,6 +75,8 @@ def run(*args, **kwargs):
     if not port:
         port = 8161
     app.run(host='0.0.0.0', port=port, debug=False)
+def run_def(port):
+    app.run(host='0.0.0.0', port=port, debug=False)
 
 
 @click.command()
@@ -100,12 +104,14 @@ def run(*args, **kwargs):
     multiple=False,
     help="Text which is required to be changed on yaml file."
 )
+config = USER_PATH+'/ViPi/src/config.yaml'
+port = 8081
 def main(*args, **kwargs):
     print("Please go to http://{0}:{1}/ to edit your yaml file.".format(
-        socket.gethostbyname(socket.gethostname()), kwargs['port']))
-    app.config['YAML_FILE_OBJ'] = kwargs['file']
-    app.config['STRING_TO_CHANGE'] = kwargs['string']
-    run(kwargs)
+        socket.gethostbyname(socket.gethostname()), port))
+    app.config['YAML_FILE_OBJ'] = config
+    app.config['STRING_TO_CHANGE'] = '#CHANGE_ME'
+    run_def(port)
 
 if __name__=='__main__':
     """Invoked when used as a script."""
