@@ -13,7 +13,6 @@ import json
 import os
 import socket
 import yaml
-config = USER_PATH+'/ViPi/src/config.yaml'
 port = 8081
 from flask import Flask, request, render_template
 from flask_bootstrap import Bootstrap
