@@ -69,48 +69,23 @@ def page_not_found(e):
     """Serves 404 error."""
     return '<h1>404: Page not Found!</h1>'
 
-def run(*args, **kwargs):
+def run_old(*args, **kwargs):
     """Starts the server."""
     port = kwargs.get('port', None)
     if not port:
         port = 8161
     app.run(host='0.0.0.0', port=port, debug=False)
-def run_def(port):
-    app.run(host='0.0.0.0', port=port, debug=False)
 
+def run():
+    app.run(host='0.0.0.0', port=8081, debug=False)
 
-@click.command()
-@click.option(
-    '--file',
-    '-f',
-    required=True,
-    type=click.Path(exists=True),
-    multiple=False,
-    help="Path with file name to the intermediary yaml file."
-)
-@click.option(
-    '--port',
-    '-p',
-    default=8161,
-    type=click.INT,
-    multiple=False,
-    help="Optional port parameter to run Flask on."
-)
-@click.option(
-    '--string',
-    '-s',
-    default='#CHANGE_ME',
-    type=click.STRING,
-    multiple=False,
-    help="Text which is required to be changed on yaml file."
-)
-
+#data = '/home/pi/ViPi/src/config.yaml'
 def main(data):
     print("Please go to http://{0}:{1}/ to edit your yaml file.".format(
         socket.gethostbyname(socket.gethostname()), port))
     app.config['YAML_FILE_OBJ'] = data
     app.config['STRING_TO_CHANGE'] = '#CHANGE_ME'
-    run_def(port)
+    run()
 
 if __name__=='__main__':
     """Invoked when used as a script."""
