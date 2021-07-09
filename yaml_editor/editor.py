@@ -13,7 +13,8 @@ import json
 import os
 import socket
 import yaml
-
+config = USER_PATH+'/ViPi/src/config.yaml'
+port = 8081
 from flask import Flask, request, render_template
 from flask_bootstrap import Bootstrap
 ROOT_PATH = os.path.realpath(os.path.join(__file__, '..', '..'))
@@ -104,12 +105,11 @@ def run_def(port):
     multiple=False,
     help="Text which is required to be changed on yaml file."
 )
-config = USER_PATH+'/ViPi/src/config.yaml'
-port = 8081
-def main(*args, **kwargs):
+
+def main(data):
     print("Please go to http://{0}:{1}/ to edit your yaml file.".format(
         socket.gethostbyname(socket.gethostname()), port))
-    app.config['YAML_FILE_OBJ'] = config
+    app.config['YAML_FILE_OBJ'] = data
     app.config['STRING_TO_CHANGE'] = '#CHANGE_ME'
     run_def(port)
 
